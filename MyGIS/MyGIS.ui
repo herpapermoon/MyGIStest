@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyGISClass</class>
+ <widget class="QMainWindow" name="MyGISClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1182</width>
+    <height>929</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MyGIS</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QGroupBox" name="showview">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>9</y>
+      <width>831</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>展示层</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1182</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOpen_File">
+    <property name="title">
+     <string>Open File</string>
+    </property>
+    <widget class="QMenu" name="menuRaster_Data">
+     <property name="title">
+      <string>Raster Data</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="actionTrue_color_display"/>
+     <addaction name="actionFake_color_display"/>
+    </widget>
+    <addaction name="actionVector_Data"/>
+    <addaction name="menuRaster_Data"/>
+   </widget>
+   <widget class="QMenu" name="menuVector_processing">
+    <property name="title">
+     <string>Vector processing</string>
+    </property>
+    <widget class="QMenu" name="menuCreate_Vector_File">
+     <property name="title">
+      <string>Create Vector File</string>
+     </property>
+     <addaction name="actionPoint"/>
+     <addaction name="actionLine"/>
+     <addaction name="actionArea"/>
+    </widget>
+    <widget class="QMenu" name="menuGeometric_analysis">
+     <property name="title">
+      <string>Geometric analysis</string>
+     </property>
+     <addaction name="actionConvex_hull_calculation"/>
+     <addaction name="actionBuffer_calculation"/>
+     <addaction name="actionSuperposition_analysis"/>
+     <addaction name="actionDelaunay_triangulation"/>
+    </widget>
+    <widget class="QMenu" name="menuStatistical_analysis">
+     <property name="title">
+      <string>Statistical analysis</string>
+     </property>
+     <addaction name="actionQuantity"/>
+     <addaction name="actionArea_2"/>
+     <addaction name="actionPerimeter"/>
+    </widget>
+    <addaction name="menuCreate_Vector_File"/>
+    <addaction name="menuGeometric_analysis"/>
+    <addaction name="menuStatistical_analysis"/>
+   </widget>
+   <widget class="QMenu" name="menuRaster_processing">
+    <property name="title">
+     <string>Raster processing</string>
+    </property>
+    <widget class="QMenu" name="menuMask_extraction">
+     <property name="title">
+      <string>Mask extraction</string>
+     </property>
+     <addaction name="actionGrid"/>
+     <addaction name="actionVector"/>
+    </widget>
+    <addaction name="actionDraw_gray_histogram"/>
+    <addaction name="actionHistogram_equalization_enhanced_display"/>
+    <addaction name="menuMask_extraction"/>
+    <addaction name="actionDomain_statistics"/>
+   </widget>
+   <addaction name="menuOpen_File"/>
+   <addaction name="menuVector_processing"/>
+   <addaction name="menuRaster_processing"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionVector_data"/>
+   <addaction name="actionRaster_data"/>
+   <addaction name="actionconvex_hull_calculation"/>
+   <addaction name="actionbuffer_calculation"/>
+   <addaction name="actionQuantity_2"/>
+   <addaction name="actionarea"/>
+   <addaction name="actiondraw_gray_histogram"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="dockWidget_9">
+   <property name="windowTitle">
+    <string>Output</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_9">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTextBrowser" name="textBrowser"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="layersdock">
+   <property name="minimumSize">
+    <size>
+     <width>300</width>
+     <height>38</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Layer</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>9</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Vector</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Raster</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+    </widget>
+    <widget class="QGroupBox" name="layermanage">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>219</y>
+       <width>251</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>layermanage</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <action name="actionVector_Data">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/导航图标  矢量文件-05.png</normaloff>:/new/prefix1/导航图标  矢量文件-05.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vector Data</string>
+   </property>
+  </action>
+  <action name="actionPoint">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/点.png</normaloff>:/new/prefix1/点.png</iconset>
+   </property>
+   <property name="text">
+    <string>Point</string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/线.png</normaloff>:/new/prefix1/线.png</iconset>
+   </property>
+   <property name="text">
+    <string>Line</string>
+   </property>
+  </action>
+  <action name="actionArea">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/面.png</normaloff>:/new/prefix1/面.png</iconset>
+   </property>
+   <property name="text">
+    <string>Area</string>
+   </property>
+  </action>
+  <action name="actionConvex_hull_calculation">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/凸包.png</normaloff>:/new/prefix1/凸包.png</iconset>
+   </property>
+   <property name="text">
+    <string>Convex hull calculation</string>
+   </property>
+  </action>
+  <action name="actionBuffer_calculation">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/icon-缓冲区.png</normaloff>:/new/prefix1/icon-缓冲区.png</iconset>
+   </property>
+   <property name="text">
+    <string>Buffer calculation</string>
+   </property>
+  </action>
+  <action name="actionSuperposition_analysis">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/叠加分析.png</normaloff>:/new/prefix1/叠加分析.png</iconset>
+   </property>
+   <property name="text">
+    <string>Superposition analysis</string>
+   </property>
+  </action>
+  <action name="actionDelaunay_triangulation">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/geometry 图形图案 20.png</normaloff>:/new/prefix1/geometry 图形图案 20.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delaunay triangulation</string>
+   </property>
+  </action>
+  <action name="actionQuantity">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/数量.png</normaloff>:/new/prefix1/数量.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quantity</string>
+   </property>
+  </action>
+  <action name="actionArea_2">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/面积.png</normaloff>:/new/prefix1/面积.png</iconset>
+   </property>
+   <property name="text">
+    <string>Area</string>
+   </property>
+  </action>
+  <action name="actionPerimeter">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/周长.png</normaloff>:/new/prefix1/周长.png</iconset>
+   </property>
+   <property name="text">
+    <string>Perimeter</string>
+   </property>
+  </action>
+  <action name="actionDraw_gray_histogram">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/直方图.png</normaloff>:/new/prefix1/直方图.png</iconset>
+   </property>
+   <property name="text">
+    <string>Draw gray histogram</string>
+   </property>
+  </action>
+  <action name="actionHistogram_equalization_enhanced_display">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/眼睛_显示.png</normaloff>:/new/prefix1/眼睛_显示.png</iconset>
+   </property>
+   <property name="text">
+    <string>Histogram equalization enhanced display</string>
+   </property>
+  </action>
+  <action name="actionDomain_statistics">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/像元邻域统计.png</normaloff>:/new/prefix1/像元邻域统计.png</iconset>
+   </property>
+   <property name="text">
+    <string>Domain statistics</string>
+   </property>
+  </action>
+  <action name="actionGrid">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/icon_grid.png</normaloff>:/new/prefix1/icon_grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Grid</string>
+   </property>
+  </action>
+  <action name="actionVector">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/数量.png</normaloff>:/new/prefix1/数量.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vector</string>
+   </property>
+  </action>
+  <action name="actionRaster_true">
+   <property name="text">
+    <string>Raster true</string>
+   </property>
+  </action>
+  <action name="actionRaster_false">
+   <property name="text">
+    <string>Raster false</string>
+   </property>
+  </action>
+  <action name="actionVector_data">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/导航图标  矢量文件-05.png</normaloff>:/new/prefix1/导航图标  矢量文件-05.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vector data</string>
+   </property>
+  </action>
+  <action name="actionRaster_data">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/grid.png</normaloff>:/new/prefix1/grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Raster data</string>
+   </property>
+  </action>
+  <action name="actionconvex_hull_calculation">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/凸包.png</normaloff>:/new/prefix1/凸包.png</iconset>
+   </property>
+   <property name="text">
+    <string>convex hull calculation</string>
+   </property>
+  </action>
+  <action name="actionbuffer_calculation">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/icon-缓冲区.png</normaloff>:/new/prefix1/icon-缓冲区.png</iconset>
+   </property>
+   <property name="text">
+    <string>buffer calculation</string>
+   </property>
+  </action>
+  <action name="actionQuantity_2">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/数量.png</normaloff>:/new/prefix1/数量.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quantity</string>
+   </property>
+  </action>
+  <action name="actionarea">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/面积.png</normaloff>:/new/prefix1/面积.png</iconset>
+   </property>
+   <property name="text">
+    <string>area</string>
+   </property>
+  </action>
+  <action name="actiondraw_gray_histogram">
+   <property name="icon">
+    <iconset resource="myicon.qrc">
+     <normaloff>:/new/prefix1/直方图.png</normaloff>:/new/prefix1/直方图.png</iconset>
+   </property>
+   <property name="text">
+    <string>draw gray histogram</string>
+   </property>
+  </action>
+  <action name="actionTrue_color_display">
+   <property name="text">
+    <string>True color display</string>
+   </property>
+  </action>
+  <action name="actionFake_color_display">
+   <property name="text">
+    <string>Fake color display</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="myicon.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>geometry 图形图案 20.png</file>
+        <file>grid.png</file>
+        <file>icon_grid.png</file>
+        <file>icon-缓冲区.png</file>
+        <file>导航图标  矢量文件-05.png</file>
+        <file>点.png</file>
+        <file>叠加分析.png</file>
+        <file>面.png</file>
+        <file>面积.png</file>
+        <file>数量.png</file>
+        <file>凸包.png</file>
+        <file>文件夹.png</file>
+        <file>线.png</file>
+        <file>像元邻域统计.png</file>
+        <file>眼睛_显示.png</file>
+        <file>直方图.png</file>
+        <file>周长.png</file>
+    </qresource>
+</RCC>

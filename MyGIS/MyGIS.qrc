@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/MyGIS">
+    <file>MyGIS.qrc</file>
+  </qresource>
+</RCC>
