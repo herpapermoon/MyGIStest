@@ -50,7 +50,7 @@ public slots:
     void updateLineWidths();
 
     void setlayerManagelayout();
-
+    void initializeShapeview();
 
 
 private:

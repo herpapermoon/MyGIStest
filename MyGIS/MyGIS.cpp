@@ -33,17 +33,10 @@ MyGIS::MyGIS(QWidget* parent)
     : QMainWindow(parent), trueColorDisplay(nullptr), fakeColorDisplay(nullptr), countStatistics(nullptr), grayHistogram(nullptr), histogramEqualizationDisplay(nullptr), rasterMaskExtraction(nullptr) {
     ui.setupUi(this);
 
-    scene = new QGraphicsScene(this);
-    view = new QGraphicsView(scene,ui.showview);
-    view->setSceneRect(-500, -500, 1000, 1000);
-    view->setDragMode(QGraphicsView::ScrollHandDrag);
-    view->scale(1, -1); // Flip the Y axis
-    QVBoxLayout* viewlayout = new QVBoxLayout(ui.showview);//view的布局模式
-    viewlayout->addWidget(view);
-    ui.showview->setLayout(viewlayout);                     //
-
-
-
+    scene = new QGraphicsScene(this);view = new QGraphicsView(scene,ui.showview);
+    
+    
+    initializeShapeview();                                  //对view进行初始化设置
     setlayerManagelayout();                                 //设置图层管理相关的布局
 
     trueColorDisplay = new TrueColorDisplay(this);

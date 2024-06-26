@@ -6,13 +6,13 @@ GISLayer::GISLayer(const QString& layerName, QGraphicsScene* parentScene)
 bool GISLayer::loadShapefile(const QString& path) {
     dataset = (GDALDataset*)GDALOpenEx(path.toStdString().c_str(), GDAL_OF_VECTOR, nullptr, nullptr, nullptr);
     if (!dataset) {
-        QMessageBox::warning(nullptr, "错误", "无法打开文件: " + path);
+        QMessageBox::warning(nullptr, "error", "cannot open file: " + path);
         return false;
     }
 
     OGRLayer* layer = dataset->GetLayer(0);
     if (!layer) {
-        QMessageBox::warning(nullptr, "错误", "无法加载层");
+        QMessageBox::warning(nullptr, "error", "cannot load layer");
         return false;
     }
 
@@ -22,7 +22,7 @@ bool GISLayer::loadShapefile(const QString& path) {
 
     OGRCoordinateTransformation* coordTransform = OGRCreateCoordinateTransformation(srcSRS, &dstSRS);
     if (!coordTransform) {
-        QMessageBox::warning(nullptr, "错误", "坐标转换失败");
+        QMessageBox::warning(nullptr, "error", "transform failed");
         return false;
     }
 
@@ -71,32 +71,51 @@ void GISLayer::addGeometryToScene(OGRGeometry* geometry) {
         geometryItemMap.insert(geometry, lineItem);
         break;
     }
-    case wkbPolygon: {//面的处理逻辑待修正，会有bug
+    case wkbPolygon: {
         OGRPolygon* poPolygon = (OGRPolygon*)geometry;
+        QPainterPath path;
+
+        // 设置填充规则为非零填充规则
+        path.setFillRule(Qt::WindingFill);
+
+        // 处理外环
         OGRLinearRing* poRing = poPolygon->getExteriorRing();
-        QPolygonF polygon;
-        for (int j = 0; j < poRing->getNumPoints(); ++j) {
-            QPointF point(poRing->getX(j), poRing->getY(j));
-            polygon << point;
+        if (poRing != nullptr) {
+            for (int j = 0; j < poRing->getNumPoints(); ++j) {
+                QPointF point(poRing->getX(j), poRing->getY(j));
+                if (j == 0) {
+                    path.moveTo(point);
+                }
+                else {
+                    path.lineTo(point);
+                }
+            }
+            path.closeSubpath();
         }
-        QGraphicsPolygonItem* polygonItem = new QGraphicsPolygonItem(polygon);
-        scene->addItem(polygonItem);
-        setupGraphicsItemsStyle(polygonItem);
-        geometryItemMap.insert(geometry, polygonItem);
 
         // 处理内部环
         for (int ringIdx = 0; ringIdx < poPolygon->getNumInteriorRings(); ++ringIdx) {
             poRing = poPolygon->getInteriorRing(ringIdx);
-            polygon.clear();
-            for (int j = 0; j < poRing->getNumPoints(); ++j) {
-                QPointF point(poRing->getX(j), poRing->getY(j));
-                polygon << point;
+            QPainterPath innerPath;
+            if (poRing != nullptr) {
+                for (int j = 0; j < poRing->getNumPoints(); ++j) {
+                    QPointF point(poRing->getX(j), poRing->getY(j));
+                    if (j == 0) {
+                        innerPath.moveTo(point);
+                    }
+                    else {
+                        innerPath.lineTo(point);
+                    }
+                }
+                innerPath.closeSubpath();
+                path.addPath(innerPath);
             }
-            QGraphicsPolygonItem* interiorPolygonItem = new QGraphicsPolygonItem(polygon);
-            scene->addItem(interiorPolygonItem);
-            setupGraphicsItemsStyle(interiorPolygonItem);
-            geometryItemMap.insert(geometry, interiorPolygonItem);
         }
+
+        QGraphicsPathItem* polygonItem = new QGraphicsPathItem(path);
+        scene->addItem(polygonItem);
+        setupGraphicsItemsStyle(polygonItem);
+        geometryItemMap.insert(geometry, polygonItem);
         break;
     }
     default:
@@ -104,6 +123,8 @@ void GISLayer::addGeometryToScene(OGRGeometry* geometry) {
         break;
     }
 }
+
+
 
 void GISLayer::setupGraphicsItemsStyle(QGraphicsItem* item) {
     QPen modifiedPen = pen;
@@ -114,12 +135,14 @@ void GISLayer::setupGraphicsItemsStyle(QGraphicsItem* item) {
     }
     else if (QGraphicsPathItem* pathItem = dynamic_cast<QGraphicsPathItem*>(item)) {
         pathItem->setPen(modifiedPen);
+        pathItem->setBrush(brush); // 确保路径项也可以填充
     }
     else if (QGraphicsPolygonItem* polygonItem = dynamic_cast<QGraphicsPolygonItem*>(item)) {
         polygonItem->setPen(modifiedPen);
         polygonItem->setBrush(brush);
     }
 }
+
 
 void GISLayer::setVisible(bool visible) {
     isVisible = visible;

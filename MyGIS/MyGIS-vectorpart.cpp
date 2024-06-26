@@ -115,7 +115,7 @@ void MyGIS::updateLineWidths() {
 }
 
 void MyGIS::setlayerManagelayout() {
-       layerManagelayout = new QVBoxLayout(ui.layermanage);
+       layerManagelayout = new QVBoxLayout(ui.layermanage);//这个布局被框在名字为layermanage的groupbox中、
 // 创建并设置图层控制布局
     layerControlLayout = new QVBoxLayout(ui.layermanage);
 
@@ -136,7 +136,14 @@ void MyGIS::setlayerManagelayout() {
     layerManagelayout->addLayout(zoomControlLayout);
     layerManagelayout->addLayout(layerControlLayout);
 
+}
 
+void MyGIS::initializeShapeview() {
+    view->setSceneRect(-500, -500, 1000, 1000);
+    view->setDragMode(QGraphicsView::ScrollHandDrag);
+    view->scale(1, -1); // Flip the Y axis
 
-
+    QVBoxLayout* viewlayout = new QVBoxLayout(ui.showview);//view的布局模式。view被框在showview这个groupbox中。
+    viewlayout->addWidget(view);
+    ui.showview->setLayout(viewlayout);                     //
 }
